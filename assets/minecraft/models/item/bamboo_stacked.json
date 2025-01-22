@@ -1,0 +1,15 @@
+{
+    "parent": "minecraft:item/handheld",
+    "textures": {
+        "Layer0": "minecraft:item/bamboo_stacked.json"
+    },
+    "display": {
+        "firstperson_lefthand": {
+            "rotation": [
+                0,
+                0,
+                0
+            ]
+        }
+    }
+}
