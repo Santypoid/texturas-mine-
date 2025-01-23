@@ -1475,7 +1475,7 @@
                     "textures": {
                         "type": "object",
                         "properties": {
-                            "Layer0": {
+                            "layer0": {
                                 "type": "string"
                             }
                         }
@@ -1620,7 +1620,7 @@
                         "body": {
                             "parent": "minecraft:item/generated",
                             "textures": {
-                                "Layer0": "minecraft:item/${1:$TM_FILENAME_BASE}"
+                                "layer0": "minecraft:item/${1:$TM_FILENAME_BASE}"
                             }
                         }
                     },
@@ -1630,7 +1630,7 @@
                         "body": {
                             "parent": "minecraft:item/handheld",
                             "textures": {
-                                "Layer0": "minecraft:item/${1:$TM_FILENAME_BASE}"
+                                "layer0": "minecraft:item/${1:$TM_FILENAME_BASE}"
                             }
                         }
                     }
