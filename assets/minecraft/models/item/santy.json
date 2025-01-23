@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "69f673f1301735f1a68c1ab436816d1466622d082e532",
-		"particle": "69f673f1301735f1a68c1ab436816d1466622d082e532"
+		"0": "minecraft:item/santy",
+		"particle": "minecraft:item/santy"
 	},
 	"elements": [
 		{
