@@ -45,12 +45,13 @@
                 }
             }
         },
-        { // Item Model Main
+        { // Minecraft/Item/
             "fileMatch": [
                 "assets/*/items/*.json"
             ],
             "url": "/ItemModelMain",
             "schema": {
+                "allowComments": true,
                 "type": "object",
                 "required": [
                     "model"
@@ -60,9 +61,9 @@
                         "$ref": "ItemModel"
                     }
                 }
-            }
+            },
         },
-        { // Item Model
+        { // ItemModel
             "url": "/ItemModel",
             "schema": {
                 "type": "object",
@@ -109,7 +110,7 @@
                                 "tints": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "TintSource"
+                                        "$ref": "#/definitions/TintSource"
                                     }
                                 }
                             }
@@ -288,341 +289,7 @@
                             }
                         },
                         "then": {
-                            "dependencies": {
-                                "type": [
-                                    "cases",
-                                    "property",
-                                    "fallback"
-                                ]
-                            },
-                            "properties": {
-                                "cases": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "required": [
-                                            "when",
-                                            "model"
-                                        ],
-                                        "properties": {
-                                            "when": {
-                                                "type": [
-                                                    "string",
-                                                    "number",
-                                                    "boolean"
-                                                ]
-                                            },
-                                            "model": {
-                                                "$ref": "ItemModel"
-                                            }
-                                        },
-                                        "defaultSnippets": [
-                                            {
-                                                "label": "Custom case",
-                                                "description": "A custom case.",
-                                                "body": {
-                                                    "when": "$1",
-                                                    "model": "^$2"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                },
-                                "fallback": {
-                                    "$ref": "ItemModel"
-                                }
-                            },
-                            "allOf": [
-                                {
-                                    "properties": {
-                                        "property": {
-                                            "enum": [
-                                                "minecraft:block_state",
-                                                "minecraft:charge_type",
-                                                "minecraft:component",
-                                                "minecraft:context_dimension",
-                                                "minecraft:context_entity_type",
-                                                "minecraft:custom_model_data",
-                                                "minecraft:display_context",
-                                                "minecraft:local_time",
-                                                "minecraft:main_hand",
-                                                "minecraft:trim_material"
-                                            ]
-                                        }
-                                    }
-                                },
-                                {
-                                    "if": {
-                                        "properties": {
-                                            "property": {
-                                                "const": "minecraft:block_state"
-                                            }
-                                        }
-                                    },
-                                    "then": {
-                                        "dependencies": {
-                                            "property": [
-                                                "block_state_property"
-                                            ]
-                                        },
-                                        "properties": {
-                                            "block_state_property": {
-                                                "type": "string"
-                                            },
-                                            "cases": {
-                                                "items": {
-                                                    "properties": {
-                                                        "when": {
-                                                            "type": [
-                                                                "string"
-                                                            ]
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    "if": {
-                                        "properties": {
-                                            "property": {
-                                                "const": "minecraft:charge_type"
-                                            }
-                                        }
-                                    },
-                                    "then": {
-                                        "properties": {
-                                            "cases": {
-                                                "items": {
-                                                    "properties": {
-                                                        "when": {
-                                                            "enum": [
-                                                                "none",
-                                                                "rocket",
-                                                                "arrow"
-                                                            ]
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    "if": {
-                                        "properties": {
-                                            "property": {
-                                                "const": "minecraft:component"
-                                            }
-                                        }
-                                    },
-                                    "then": {
-                                        "dependencies": {
-                                            "property": [
-                                                "component"
-                                            ]
-                                        },
-                                        "properties": {
-                                            "component": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    "if": {
-                                        "properties": {
-                                            "property": {
-                                                "const": "minecraft:context_dimension"
-                                            }
-                                        }
-                                    },
-                                    "then": {
-                                        "properties": {
-                                            "cases": {
-                                                "items": {
-                                                    "properties": {
-                                                        "when": {
-                                                            "description": "Namespaced dimension ID.",
-                                                            "type": "string",
-                                                            "examples": [
-                                                                "minecraft:overworld",
-                                                                "minecraft:the_nether",
-                                                                "minecraft:the_end"
-                                                            ]
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    "if": {
-                                        "properties": {
-                                            "property": {
-                                                "const": "minecraft:context_entity_type"
-                                            }
-                                        }
-                                    },
-                                    "then": {
-                                        "properties": {
-                                            "cases": {
-                                                "items": {
-                                                    "properties": {
-                                                        "when": {
-                                                            "description": "Namespaced entity type ID.",
-                                                            "type": "string"
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    "if": {
-                                        "properties": {
-                                            "property": {
-                                                "const": "minecraft:custom_model_data"
-                                            }
-                                        }
-                                    },
-                                    "then": {
-                                        "description": "Return values from strings list in minecraft:custom_model_data",
-                                        "markdownDescription": "Return values from `strings` list in `minecraft:custom_model_data`",
-                                        "properties": {
-                                            "index": {
-                                                "type": "integer",
-                                                "minimum": 0
-                                            },
-                                            "cases": {
-                                                "items": {
-                                                    "properties": {
-                                                        "when": {
-                                                            "type": "string"
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    "if": {
-                                        "properties": {
-                                            "property": {
-                                                "const": "minecraft:display_context"
-                                            }
-                                        }
-                                    },
-                                    "then": {
-                                        "properties": {
-                                            "cases": {
-                                                "items": {
-                                                    "properties": {
-                                                        "when": {
-                                                            "enum": [
-                                                                "none",
-                                                                "thirdperson_lefthand",
-                                                                "thirdperson_righthand",
-                                                                "firstperson_lefthand",
-                                                                "firstperson_righthand",
-                                                                "head",
-                                                                "gui",
-                                                                "ground",
-                                                                "fixed"
-                                                            ]
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    "if": {
-                                        "properties": {
-                                            "property": {
-                                                "const": "minecraft:local_time"
-                                            }
-                                        }
-                                    },
-                                    "then": {
-                                        "dependencies": {
-                                            "property": [
-                                                "time_zone"
-                                            ]
-                                        },
-                                        "properties": {
-                                            "locale": {
-                                                "type": "string",
-                                                "description": "alue describing locale Default \"\" which means \"root\" locale (a set of defaults, including English names)."
-                                            },
-                                            "time_zone": {
-                                                "type": "string",
-                                                "description": "describes format to be used for time formatting"
-                                            },
-                                            "pattern": {
-                                                "type": "string",
-                                                "description": "describes format to be used for time formatting",
-                                                "examples": [
-                                                    "yyyy-MM-dd",
-                                                    "HH:mm:ss"
-                                                ]
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    "if": {
-                                        "properties": {
-                                            "property": {
-                                                "const": "minecraft:main_hand"
-                                            }
-                                        }
-                                    },
-                                    "then": {
-                                        "properties": {
-                                            "cases": {
-                                                "items": {
-                                                    "properties": {
-                                                        "when": {
-                                                            "enum": [
-                                                                "left",
-                                                                "right"
-                                                            ]
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    "if": {
-                                        "properties": {
-                                            "property": {
-                                                "const": "minecraft:trim_material"
-                                            }
-                                        }
-                                    },
-                                    "then": {
-                                        "properties": {
-                                            "cases": {
-                                                "items": {
-                                                    "properties": {
-                                                        "when": {
-                                                            "type": "string"
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/TypeSelect",
                         }
                     },
                     // Range_Dispatch
@@ -1098,21 +765,695 @@
                         }
                     }
                 ],
+                "definitions": {
+                    "TintSource": {
+                        "type": "object",
+                        "required": [
+                            "type"
+                        ],
+                        "oneOf": [
+                            {
+                                "description": "Return a constant RGB color.",
+                                "required": [
+                                    "type",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "const": "minecraft:constant"
+                                    },
+                                    "value": {
+                                        "$ref": "#/definitions/RGBValue"
+                                    }
+                                }
+                            },
+                            {
+                                "description": "Return value from `minecraft:dyed_color` component or *default* if not present.",
+                                "required": [
+                                    "type",
+                                    "default"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "const": "minecraft:dye"
+                                    },
+                                    "default": {
+                                        "$ref": "#/definitions/RGBValue"
+                                    }
+                                }
+                            },
+                            {
+                                "description": "Return grass color at specific climate parameters, based on `textures/colormap/grass.png`",
+                                "required": [
+                                    "type",
+                                    "temperature",
+                                    "downfall"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "const": "minecraft:grass"
+                                    },
+                                    "temperature": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1
+                                    },
+                                    "downfall": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1
+                                    }
+                                }
+                            },
+                            {
+                                "description": "Return average of colors from `minecraft:firework_explosion` component or *default* color if there are none.",
+                                "required": [
+                                    "type",
+                                    "default"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "const": "minecraft:firework"
+                                    },
+                                    "default": {
+                                        "$ref": "#/definitions/RGBValue"
+                                    }
+                                }
+                            },
+                            {
+                                "description": "Return color from minecraft:potion_contents component:\n-if component is present:\n\t- `custom_color` if present\n\t- *default* color if effect list is empty\n\t- average of effect colors\n-else return *default* color.",
+                                "required": [
+                                    "type",
+                                    "default"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "const": "minecraft:potion"
+                                    },
+                                    "default": {
+                                        "$ref": "#/definitions/RGBValue"
+                                    }
+                                }
+                            },
+                            {
+                                "description": "Return value from `minecraft:map_color` component or *default* color if component is not present",
+                                "required": [
+                                    "type",
+                                    "default"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "const": "minecraft:map"
+                                    },
+                                    "default": {
+                                        "$ref": "#/definitions/RGBValue"
+                                    }
+                                }
+                            },
+                            {
+                                "description": "Returns the team color of context entity, if any. Else, when there is no context entity, entity is not in a team or team has no color, return default.",
+                                "required": [
+                                    "type",
+                                    "default"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "const": "minecraft:team"
+                                    },
+                                    "default": {
+                                        "$ref": "#/definitions/RGBValue"
+                                    }
+                                }
+                            },
+                            {
+                                "description": "Return value from `colors` list in `minecraft:custom_model_data` component.",
+                                "required": [
+                                    "type",
+                                    "default"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "const": "minecraft:custom_model_data"
+                                    },
+                                    "index": {
+                                        "type": "integer",
+                                        "minimum": 0
+                                    },
+                                    "default": {
+                                        "$ref": "#/definitions/RGBValue"
+                                    }
+                                }
+                            }
+                        ],
+                        "defaultSnippets": [
+                            {
+                                "label": "type: minecraft:constant",
+                                "description": "A const color.",
+                                "body": {
+                                    "type": "minecraft:constant",
+                                    "value": "$1"
+                                }
+                            },
+                            {
+                                "label": "type: minecraft:dye",
+                                "description": "retrieves the color from the component `dyed_color`",
+                                "body": {
+                                    "type": "minecraft:dye",
+                                    "default": [
+                                        1,
+                                        1,
+                                        1
+                                    ]
+                                }
+                            },
+                            {
+                                "label": "type: minecraft:grass",
+                                "description": "retrieves the color from the component `grass_color`",
+                                "body": {
+                                    "type": "minecraft:grass",
+                                    "temperature": "$1",
+                                    "downfall": "$2"
+                                }
+                            },
+                            {
+                                "label": "type: minecraft:firework",
+                                "description": "retrieves the color from the component `firework_explosion`",
+                                "body": {
+                                    "type": "minecraft:firework",
+                                    "default": [
+                                        1,
+                                        1,
+                                        1
+                                    ]
+                                }
+                            },
+                            {
+                                "label": "type: minecraft:potion",
+                                "description": "retrieves the color from the component `potion_contents`",
+                                "body": {
+                                    "type": "minecraft:potion",
+                                    "default": [
+                                        1,
+                                        1,
+                                        1
+                                    ]
+                                }
+                            },
+                            {
+                                "label": "type: minecraft:map",
+                                "description": "retrieves the color from the component `map_color`",
+                                "body": {
+                                    "type": "minecraft:map",
+                                    "default": [
+                                        1,
+                                        1,
+                                        1
+                                    ]
+                                }
+                            },
+                            {
+                                "label": "type: minecraft:team",
+                                "description": "retrieves the color from the component `team_color`",
+                                "body": {
+                                    "type": "minecraft:team",
+                                    "default": [
+                                        1,
+                                        1,
+                                        1
+                                    ]
+                                }
+                            },
+                            {
+                                "label": "type: minecraft:custom_model_data",
+                                "description": "retrieves the color from the component `custom_model_data`",
+                                "body": {
+                                    "type": "minecraft:custom_model_data",
+                                    "default": [
+                                        1,
+                                        1,
+                                        1
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "RGBValue": {
+                        "type": [
+                            "array",
+                            "number"
+                        ],
+                        "items": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "minItems": 3,
+                        "maxItems": 3,
+                        "minimum": 0,
+                        "maximum": 16777215
+                    },
+                    "TypeSelect": {
+                        "dependencies": {
+                            "type": [
+                                "cases",
+                                "property",
+                                "fallback"
+                            ]
+                        },
+                        "properties": {
+                            "cases": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "when",
+                                        "model"
+                                    ],
+                                    "properties": {
+                                        "when": {
+                                            "type": [
+                                                "string",
+                                                "number",
+                                                "boolean"
+                                            ]
+                                        },
+                                        "model": {
+                                            "$ref": "ItemModel"
+                                        }
+                                    },
+                                    "defaultSnippets": [
+                                        {
+                                            "label": "Custom case",
+                                            "description": "A custom case.",
+                                            "body": {
+                                                "when": "$1",
+                                                "model": "^$2"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "fallback": {
+                                "$ref": "ItemModel"
+                            }
+                        },
+                        "allOf": [
+                            {
+                                "properties": {
+                                    "property": {
+                                        "enum": [
+                                            "minecraft:block_state",
+                                            "minecraft:charge_type",
+                                            "minecraft:component",
+                                            "minecraft:context_dimension",
+                                            "minecraft:context_entity_type",
+                                            "minecraft:custom_model_data",
+                                            "minecraft:display_context",
+                                            "minecraft:local_time",
+                                            "minecraft:main_hand",
+                                            "minecraft:trim_material"
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "if": {
+                                    "properties": {
+                                        "property": {
+                                            "const": "minecraft:block_state"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "dependencies": {
+                                        "property": [
+                                            "block_state_property"
+                                        ]
+                                    },
+                                    "properties": {
+                                        "block_state_property": {
+                                            "type": "string"
+                                        },
+                                        "cases": {
+                                            "items": {
+                                                "properties": {
+                                                    "when": {
+                                                        "type": [
+                                                            "string"
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "if": {
+                                    "properties": {
+                                        "property": {
+                                            "const": "minecraft:charge_type"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "properties": {
+                                        "cases": {
+                                            "items": {
+                                                "properties": {
+                                                    "when": {
+                                                        "enum": [
+                                                            "none",
+                                                            "rocket",
+                                                            "arrow"
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            { // Component
+                                "if": {
+                                    "properties": {
+                                        "property": {
+                                            "const": "minecraft:component"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "dependencies": {
+                                        "property": [
+                                            "component"
+                                        ]
+                                    },
+                                    "properties": {
+                                        "component": {
+                                            "type": "string",
+                                            "examples": [
+                                                "attribute_modifiers",
+                                                "banner_patterns",
+                                                "base_color",
+                                                "bees",
+                                                "block_entity_data",
+                                                "block_state",
+                                                "blocks_attacks​",
+                                                "break_sound​",
+                                                "bucket_entity_data",
+                                                "bundle_contents",
+                                                "can_break",
+                                                "can_place_on",
+                                                "charged_projectiles",
+                                                "consumable",
+                                                "container",
+                                                "container_loot",
+                                                "custom_data",
+                                                "custom_model_data",
+                                                "custom_name",
+                                                "damage",
+                                                "damage_resistant",
+                                                "debug_stick_state",
+                                                "death_protection",
+                                                "dyed_color",
+                                                "enchantable",
+                                                "enchantment_glint_override",
+                                                "enchantments",
+                                                "entity_data",
+                                                "equippable",
+                                                "firework_explosion",
+                                                "fireworks",
+                                                "food",
+                                                "glider",
+                                                "hide_additional_tooltip‌[until JE 1.21.5]",
+                                                "hide_tooltip‌[until JE 1.21.5]",
+                                                "instrument",
+                                                "intangible_projectile",
+                                                "item_model",
+                                                "item_name",
+                                                "jukebox_playable",
+                                                "lock",
+                                                "lodestone_tracker",
+                                                "lore",
+                                                "map_color",
+                                                "map_decorations",
+                                                "map_id",
+                                                "max_damage",
+                                                "max_stack_size",
+                                                "note_block_sound",
+                                                "ominous_bottle_amplifier",
+                                                "pot_decorations",
+                                                "potion_contents",
+                                                "potion_duration_scale​",
+                                                "profile",
+                                                "provides_banner_patterns​",
+                                                "provides_trim_material​",
+                                                "rarity",
+                                                "recipes",
+                                                "repairable",
+                                                "repair_cost",
+                                                "stored_enchantments",
+                                                "suspicious_stew_effects",
+                                                "tool",
+                                                "tooltip_display​",
+                                                "tooltip_style",
+                                                "trim",
+                                                "unbreakable",
+                                                "use_cooldown",
+                                                "use_remainder",
+                                                "weapon​",
+                                                "writable_book_content",
+                                                "written_book_content"
+                                            ]
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "if": {
+                                    "properties": {
+                                        "property": {
+                                            "const": "minecraft:context_dimension"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "properties": {
+                                        "cases": {
+                                            "items": {
+                                                "properties": {
+                                                    "when": {
+                                                        "description": "Namespaced dimension ID.",
+                                                        "type": "string",
+                                                        "examples": [
+                                                            "minecraft:overworld",
+                                                            "minecraft:the_nether",
+                                                            "minecraft:the_end"
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            { // Context_Entity_Type
+                                "if": {
+                                    "properties": {
+                                        "property": {
+                                            "const": "minecraft:context_entity_type"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "properties": {
+                                        "cases": {
+                                            "items": {
+                                                "properties": {
+                                                    "when": {
+                                                        "description": "Namespaced entity type ID.",
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "if": {
+                                    "properties": {
+                                        "property": {
+                                            "const": "minecraft:custom_model_data"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "description": "Return values from strings list in minecraft:custom_model_data",
+                                    "markdownDescription": "Return values from `strings` list in `minecraft:custom_model_data`",
+                                    "properties": {
+                                        "index": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
+                                        "cases": {
+                                            "items": {
+                                                "properties": {
+                                                    "when": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            { // display context
+                                "if": {
+                                    "properties": {
+                                        "property": {
+                                            "const": "minecraft:display_context"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "properties": {
+                                        "cases": {
+                                            "items": {
+                                                "properties": {
+                                                    "when": {
+                                                        "enum": [
+                                                            "none",
+                                                            "thirdperson_lefthand",
+                                                            "thirdperson_righthand",
+                                                            "firstperson_lefthand",
+                                                            "firstperson_righthand",
+                                                            "head",
+                                                            "gui",
+                                                            "ground",
+                                                            "fixed"
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            { // Local Time
+                                "if": {
+                                    "properties": {
+                                        "property": {
+                                            "const": "minecraft:local_time"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "dependencies": {
+                                        "property": [
+                                            "pattern"
+                                        ]
+                                    },
+                                    "properties": {
+                                        "locale": {
+                                            "type": "string",
+                                            "description": "alue describing locale Default \"\" which means \"root\" locale (a set of defaults, including English names).",
+                                            "markdownDescription": "Value describing locale Default `\"\"` which means \"root\" locale (a set of defaults, including English names).",
+                                            "examples": [
+                                                "en_US",
+                                                "cs_AU@numbers=thai;calendar=japanese"
+                                            ]
+                                        },
+                                        "time_zone": {
+                                            "type": "string",
+                                            "description": "Value describing time zone. If not present, defaults to timezone set on client.",
+                                            "examples": [
+                                                "Europe/Stockholm", "GMT+0:45"
+                                            ]
+                                        },
+                                        "pattern": {
+                                            "type": "string",
+                                            "description": "Describes format to be used for time formatting",
+                                            "examples": [
+                                                "yyyy-MM-dd",
+                                                "HH:mm:ss"
+                                            ]
+                                        }
+                                    }
+                                }
+                            },
+                            { // main_hand
+                                "if": {
+                                    "properties": {
+                                        "property": {
+                                            "const": "minecraft:main_hand"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "properties": {
+                                        "cases": {
+                                            "items": {
+                                                "properties": {
+                                                    "when": {
+                                                        "enum": [
+                                                            "left",
+                                                            "right"
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "if": {
+                                    "properties": {
+                                        "property": {
+                                            "const": "minecraft:trim_material"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "properties": {
+                                        "cases": {
+                                            "items": {
+                                                "properties": {
+                                                    "when": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
                 "defaultSnippets": [
                     { // Model
                         "label": "type: Model",
                         "description": "Picks a model from models directory.",
                         "body": {
                             "type": "minecraft:model",
-                            "model": "minecraft:item/$1"
-                        }
-                    },
-                    {
-                        "label": "type: Model This",
-                        "description": "Picks this item default model.",
-                        "body": {
-                            "type": "minecraft:model",
-                            "model": "minecraft:item/$TM_FILENAME_BASE"
+                            "model": "minecraft:item/${1:$TM_FILENAME_BASE}"
                         }
                     },
                     {
@@ -1182,286 +1523,7 @@
                 ]
             }
         },
-        { // Tint Source
-            "url": "/TintSource",
-            "schema": {
-                "type": "object",
-                "required": [
-                    "type"
-                ],
-                "snippet": {
-                    "label": "type: minecraft:color",
-                    "description": "Color tint.",
-                    "body": {
-                        "type": "minecraft:color",
-                        "color": [
-                            1,
-                            1,
-                            1
-                        ]
-                    }
-                },
-                "oneOf": [
-                    {
-                        "description": "Return a constant RGB color.",
-                        "required": [
-                            "type",
-                            "value"
-                        ],
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "const": "minecraft:constant"
-                            },
-                            "value": {
-                                "$ref": "RGBValue"
-                            }
-                        }
-                    },
-                    {
-                        "description": "Return value from `minecraft:dyed_color` component or *default* if not present.",
-                        "required": [
-                            "type",
-                            "default"
-                        ],
-                        "additionalProperties": false,
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "const": "minecraft:dye"
-                            },
-                            "default": {
-                                "$ref": "RGBValue"
-                            }
-                        }
-                    },
-                    {
-                        "description": "Return grass color at specific climate parameters, based on `textures/colormap/grass.png`",
-                        "required": [
-                            "type",
-                            "temperature",
-                            "downfall"
-                        ],
-                        "additionalProperties": false,
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "const": "minecraft:grass"
-                            },
-                            "temperature": {
-                                "type": "number",
-                                "minimum": 0,
-                                "maximum": 1
-                            },
-                            "downfall": {
-                                "type": "number",
-                                "minimum": 0,
-                                "maximum": 1
-                            }
-                        }
-                    },
-                    {
-                        "description": "Return average of colors from `minecraft:firework_explosion` component or *default* color if there are none.",
-                        "required": [
-                            "type",
-                            "default"
-                        ],
-                        "additionalProperties": false,
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "const": "minecraft:firework"
-                            },
-                            "default": {
-                                "$ref": "RGBValue"
-                            }
-                        }
-                    },
-                    {
-                        "description": "Return color from minecraft:potion_contents component:\n-if component is present:\n\t- `custom_color` if present\n\t- *default* color if effect list is empty\n\t- average of effect colors\n-else return *default* color.",
-                        "required": [
-                            "type",
-                            "default"
-                        ],
-                        "additionalProperties": false,
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "const": "minecraft:potion"
-                            },
-                            "default": {
-                                "$ref": "RGBValue"
-                            }
-                        }
-                    },
-                    {
-                        "description": "Return value from `minecraft:map_color` component or *default* color if component is not present",
-                        "required": [
-                            "type",
-                            "default"
-                        ],
-                        "additionalProperties": false,
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "const": "minecraft:map"
-                            },
-                            "default": {
-                                "$ref": "RGBValue"
-                            }
-                        }
-                    },
-                    {
-                        "description": "Returns the team color of context entity, if any. Else, when there is no context entity, entity is not in a team or team has no color, return default.",
-                        "required": [
-                            "type",
-                            "default"
-                        ],
-                        "additionalProperties": false,
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "const": "minecraft:team"
-                            },
-                            "default": {
-                                "$ref": "RGBValue"
-                            }
-                        }
-                    },
-                    {
-                        "description": "Return value from `colors` list in `minecraft:custom_model_data` component.",
-                        "required": [
-                            "type",
-                            "default"
-                        ],
-                        "additionalProperties": false,
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "const": "minecraft:custom_model_data"
-                            },
-                            "index": {
-                                "type": "integer",
-                                "minimum": 0
-                            },
-                            "default": {
-                                "$ref": "RGBValue"
-                            }
-                        }
-                    }
-                ],
-                "defaultSnippets": [
-                    {
-                        "label": "type: minecraft:constant",
-                        "description": "A const color.",
-                        "body": {
-                            "type": "minecraft:constant",
-                            "value": "$1"
-                        }
-                    },
-                    {
-                        "label": "type: minecraft:dye",
-                        "description": "retrieves the color from the component `dyed_color`",
-                        "body": {
-                            "type": "minecraft:dye",
-                            "default": [
-                                1,
-                                1,
-                                1
-                            ]
-                        }
-                    },
-                    {
-                        "label": "type: minecraft:grass",
-                        "description": "retrieves the color from the component `grass_color`",
-                        "body": {
-                            "type": "minecraft:grass",
-                            "temperature": "$1",
-                            "downfall": "$2"
-                        }
-                    },
-                    {
-                        "label": "type: minecraft:firework",
-                        "description": "retrieves the color from the component `firework_explosion`",
-                        "body": {
-                            "type": "minecraft:firework",
-                            "default": [
-                                1,
-                                1,
-                                1
-                            ]
-                        }
-                    },
-                    {
-                        "label": "type: minecraft:potion",
-                        "description": "retrieves the color from the component `potion_contents`",
-                        "body": {
-                            "type": "minecraft:potion",
-                            "default": [
-                                1,
-                                1,
-                                1
-                            ]
-                        }
-                    },
-                    {
-                        "label": "type: minecraft:map",
-                        "description": "retrieves the color from the component `map_color`",
-                        "body": {
-                            "type": "minecraft:map",
-                            "default": [
-                                1,
-                                1,
-                                1
-                            ]
-                        }
-                    },
-                    {
-                        "label": "type: minecraft:team",
-                        "description": "retrieves the color from the component `team_color`",
-                        "body": {
-                            "type": "minecraft:team",
-                            "default": [
-                                1,
-                                1,
-                                1
-                            ]
-                        }
-                    },
-                    {
-                        "label": "type: minecraft:custom_model_data",
-                        "description": "retrieves the color from the component `custom_model_data`",
-                        "body": {
-                            "type": "minecraft:custom_model_data",
-                            "default": [
-                                1,
-                                1,
-                                1
-                            ]
-                        }
-                    }
-                ]
-            }
-        },
-        { // RGB Value
-            "url": "/RGBValue",
-            "schema": {
-                "type": [
-                    "array",
-                    "number"
-                ],
-                "items": {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 1
-                },
-                "minItems": 3,
-                "maxItems": 3,
-                "minimum": 0,
-                "maximum": 16777215
-            }
-        },
-        { // Models/Item
+        { // Minecraft/Models/Item
             "url": "/ModelsItem",
             "fileMatch": [
                 "assets/*/models/item/*.json"
@@ -1732,7 +1794,7 @@
                 }
             }
         },
-        { // All Models
+        { // AllModels
             "url": "/ModelsPathExample",
             "schema": {
                 "type": "string",
