@@ -1,23 +1,36 @@
-name: testing!
+name: Uploading to Google Drive
 
 on:
     push:
-            branches: [main]
+        branches: [main]
+
+permissions:
+    contents: read  # Permissão para ler o conteúdo do repositório
+    issues: write    # Permissão para escrever em issues
+    pull-requests: write  # Permissão para escrever em pull requests
 
 jobs:
     build:
         runs-on: ubuntu-latest
-
-        # zip files -> upload as arctifact
         steps:
-            - name: Checkout
-              uses: actions/checkout@v2
-
-            - name: Zip the files
-              run: zip -r files.zip .
-
-            - name: Upload artifact
-              uses: actions/upload-artifact@v2
+            - name: Checkout code
+              uses: actions/checkout@v4
+          
+            - name: Archive files
+              run: |
+                apt-get update
+                apt-get install -y zip  # A opção -y é para confirmar a instalação automaticamente
+                zip -r Santy112Pack.zip *
+            
+            - name: Upload a file to Google Drive
+              uses: willo32/google-drive-upload-action@v1
               with:
-                  name: files
-        
+                credentials: ${{ secrets.CREDENTIALS }}
+                parent_folder_id: ${{ secrets.FOLDERID }}
+                target: ./Santy112Pack.zip
+            
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                    name: Santy112Pack
+                    path: Santy112Pack.zip
