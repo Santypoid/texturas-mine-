@@ -15,22 +15,11 @@ jobs:
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
-          
-            - name: Archive files
-              run: |
-                sudo apt-get update
-                sudo apt-get install -y zip  # A opção -y é para confirmar a instalação automaticamente
-                zip -r Santy112Pack.zip *
             
-            - name: Upload artifact
+            - name: Upload Artifact
               uses: actions/upload-artifact@v4
               with:
-                    name: Santy112Pack
-                    path: Santy112Pack.zip
-            
-            - name: Upload a file to Google Drive
-              uses: Wtzd8645/upload-to-google-drive-action@v2.0.0
-              with:
-                credentials: ${{ secrets.CREDENTIALS }}
-                src_path: ${{ github.workspace }}/Santy112Pack.zip
-                dest_folder: ${{ secrets.FOLDERID }}
+                  name: my-artifact
+                  path: |
+                    /assets/
+                    pack.mcmeta
