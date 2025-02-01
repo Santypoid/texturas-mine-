@@ -19,7 +19,7 @@ jobs:
             - name: Upload Artifact
               uses: actions/upload-artifact@v4
               with:
-                  name: my-artifact
+                  name: Santy112Pack
                   path: |
-                    /assets/
-                    pack.mcmeta
+                    ${{ github.workspace }}/*
+                    !${{ github.workspace }}/.vscode
