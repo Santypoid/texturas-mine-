@@ -1,0 +1,23 @@
+name: testing!
+
+on:
+    push:
+            branches: [main]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        # zip files -> upload as arctifact
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Zip the files
+              run: zip -r files.zip .
+
+            - name: Upload artifact
+              uses: actions/upload-artifact@v2
+              with:
+                  name: files
+        
