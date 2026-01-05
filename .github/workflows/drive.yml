@@ -1,25 +1,13 @@
-name: Uploading to Google Drive
-
-on:
-    push:
-        branches: [main]
-
-permissions:
-    contents: read  # Permissão para ler o conteúdo do repositório
-    issues: write    # Permissão para escrever em issues
-    pull-requests: write  # Permissão para escrever em pull requests
-
+name: Create Archive
+on: [push]
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-            
-            - name: Upload Artifact
-              uses: actions/upload-artifact@v4
-              with:
-                  name: Santy112Pack
-                  path: |
-                    ${{ github.workspace }}/*
-                    !${{ github.workspace }}/.vscode
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Archive Release
+      uses: thedoctor0/zip-release@0.7.5
+      with:
+        type: 'zip'
+        filename: 'Santy112Pack.zip'
+        exclusions: '*.git* /*node_modules/* .editorconfig'
