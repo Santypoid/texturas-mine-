@@ -1,16 +1,16 @@
-name: Deploy Resource Pack
+name: Update Release
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  deploy:
+  release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v3
 
       - name: Create Archive
@@ -19,11 +19,10 @@ jobs:
           filename: 'Santy112Pack.zip'
           exclusions: '*.git* .github/* README.md .vscode/*'
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Update Release
+        uses: pyTooling/Actions/releaser@r0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }} 
-          publish_dir: ./ 
-          publish_branch: gh-pages
-          keep_files: true 
-          enable_jekyll: true 
+          tag: latest # Uma tag fixa chamada "latest"
+          rm_targs: Santy112Pack.zip # Remove o zip antigo
+          files: Santy112Pack.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
