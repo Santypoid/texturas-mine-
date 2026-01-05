@@ -1,13 +1,29 @@
-name: Create Archive
-on: [push]
+name: Deploy Resource Pack
+
+on:
+  push:
+    branches: [ main ]
+
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-    - uses: actions/checkout@master
-    - name: Archive Release
-      uses: thedoctor0/zip-release@0.7.5
-      with:
-        type: 'zip'
-        filename: 'Santy112Pack.zip'
-        exclusions: '*.git* /*node_modules/* .editorconfig'
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create Archive
+        uses: thedoctor0/zip-release@master
+        with:
+          filename: 'Santy112Pack.zip'
+          exclusions: '*.git* .github/* README.md .vscode/*'
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} 
+          publish_dir: ./ 
+          publish_branch: gh-pages
+          keep_files: true 
+          enable_jekyll: true 
