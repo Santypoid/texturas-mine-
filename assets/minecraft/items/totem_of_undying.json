@@ -1,0 +1,41 @@
+{
+    "model": {
+        "type": "minecraft:select",
+        "property": "minecraft:component",
+        "component": "custom_name",
+        "cases": [
+            {
+                "when": "Santy",
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "minecraft:item/santy"
+                }
+            },
+            {
+                "when": "Alstin",
+                "model": {
+                    "type": "minecraft:select",
+                    "property": "minecraft:local_time",
+                    "pattern": "ss",
+                    "cases": [
+                        {
+                            "when": "00",
+                            "model": {
+                                "type": "minecraft:model",
+                                "model": "minecraft:item/alstin_outro"
+                            }
+                        }
+                    ],
+                    "fallback": {
+                        "type": "minecraft:model",
+                        "model": "minecraft:item/alstin"
+                    } 
+                }
+            }
+        ],
+        "fallback": {
+            "type": "minecraft:model",
+            "model": "minecraft:item/totem_of_undying"
+        } 
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "model": {
+        "type": "minecraft:select",
+        "property": "minecraft:component",
+        "cases": [],
+        "component": "custom_name",
+        "fallback": {
+            "type": "minecraft:model",
+            "model": "minecraft:item/bamboo"
+        }
+    }
+}
