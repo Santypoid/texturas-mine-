@@ -46,7 +46,10 @@
                                 "description": "Specifies the maximum version supported, analogous as `min_format`. Specifying a single integer is interpreted as any minor version."
                             },
                             "supported_formats": {
-                                "type": ["object", "array"],
+                                "type": [
+                                    "object",
+                                    "array"
+                                ],
                                 "description": "An array of supported Minecraft versions.",
                                 "properties": {
                                     "min_inclusive": {
@@ -895,8 +898,15 @@
                                             }
                                         }
                                     ]
+                                },
+                                "base": {
+                                    "type": "string",
                                 }
-                            }
+                            },
+                            "required": [
+                                "base",
+                                "model"
+                            ]
                         }
                     }
                 ],
@@ -1184,8 +1194,16 @@
                                             "type": [
                                                 "string",
                                                 "number",
-                                                "boolean"
-                                            ]
+                                                "boolean",
+                                                "array"
+                                            ],
+                                            "items": {
+                                                "type": [
+                                                    "string",
+                                                    "number",
+                                                    "boolean"
+                                                ]
+                                            }
                                         },
                                         "model": {
                                             "$ref": "ItemModel"
