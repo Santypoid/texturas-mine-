@@ -1,9 +1,16 @@
 {
     "model": {
-        "type": "minecraft:select",
-        "property": "minecraft:component",
-        "cases": [],
-        "component": "custom_name",
+        "type": "minecraft:range_dispatch",
+        "property": "minecraft:count",
+        "entries": [
+            {
+                "threshold": 0.1,
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "minecraft:item/bamboo_stacked"
+                }
+            }
+        ],
         "fallback": {
             "type": "minecraft:model",
             "model": "minecraft:item/bamboo"
