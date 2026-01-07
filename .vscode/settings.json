@@ -11,21 +11,42 @@
                     "pack": {
                         "type": "object",
                         "required": [
-                            "pack_format"
+                            "description",
+                            "min_format",
+                            "max_format",
+                            "supported_formats"
                         ],
                         "properties": {
                             "pack_format": {
                                 "type": "number",
                                 "description": "The version of the pack format.",
-                                "minimum": 48,
-                                "maximum": 48
                             },
                             "description": {
                                 "type": "string",
                                 "description": "A description of the pack."
                             },
+                            "min_format": {
+                                "type": [
+                                    "number",
+                                    "array"
+                                ],
+                                "items": {
+                                    "type": "number"
+                                },
+                                "description": "Specifies the minimum version supported. Can be a single integer or a list of two integers, where the first one is pack (major) version, second one a minor version. Specifying a single integer is interpreted as that major version, for example value `82` or `[82]` is equivalent to `[82, 0]`."
+                            },
+                            "max_format": {
+                                "type": [
+                                    "number",
+                                    "array"
+                                ],
+                                "items": {
+                                    "type": "number"
+                                },
+                                "description": "Specifies the maximum version supported, analogous as `min_format`. Specifying a single integer is interpreted as any minor version."
+                            },
                             "supported_formats": {
-                                "type": "object",
+                                "type": ["object", "array"],
                                 "description": "An array of supported Minecraft versions.",
                                 "properties": {
                                     "min_inclusive": {
@@ -38,11 +59,125 @@
                                         "description": "The maximum supported version of Minecraft.",
                                         "minimum": 0
                                     }
+                                },
+                                "items": {
+                                    "type": "number"
                                 }
                             }
                         }
+                    },
+                    "features": {
+                        "type": "object",
+                        "description": "Section for selecting experimental features.",
+                        "properties": {
+                            "enabled": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "description": "List of enabled feature flags."
+                            }
+                        }
+                    },
+                    "filter": {
+                        "type": "object",
+                        "description": "Section for filtering out files from packs applied below this one. Any file that matches one of the patterns inside [NBT List / JSON Array] block is treated as if it was not present in the pack at all.",
+                        "properties": {
+                            "block": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "namespace": {
+                                            "type": "string",
+                                            "description": "A regular expression for the namespace of files to be filtered out. If unspecified, it applies to every namespace."
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "description": "A regular expression for the paths of files to be filtered out. If unspecified, it applies to every file."
+                                        }
+                                    },
+                                },
+                                "description": "List of glob patterns for files to be filtered out from the pack."
+                            }
+                        }
+                    },
+                    "overlays": {
+                        "type": "object",
+                        "description": "Section for specifying the overlays, which are sub-packs applied over the \"normal\" contents of a pack. Their directories have their own assets and data directories, and are placed in the pack's root directory.",
+                        "properties": {
+                            "entries": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "directory": {
+                                            "type": "string",
+                                            "description": "The directory to overlay for the respective versions (allowed characters: a-z, 0-9, _ and -). In this directory, pack.mcmeta and pack.png are ignored."
+                                        },
+                                        "min_format": {
+                                            "type": [
+                                                "number",
+                                                "array"
+                                            ],
+                                            "items": {
+                                                "type": "number"
+                                            },
+                                            "description": "Specifies the minimum version supported. Can be a single integer or a list of two integers, where the first one is pack (major) version, second one a minor version. Specifying a single integer is interpreted as that major version, for example value `82` or `[82]` is equivalent to `[82, 0]`."
+                                        },
+                                        "max_format": {
+                                            "type": [
+                                                "number",
+                                                "array"
+                                            ],
+                                            "items": {
+                                                "type": "number"
+                                            },
+                                            "description": "Specifies the maximum version supported, analogous as `min_format`. Specifying a single integer is interpreted as any minor version."
+                                        },
+                                        "formats": {
+                                            "type": [
+                                                "number",
+                                                "array"
+                                            ],
+                                            "items": {
+                                                "type": "number",
+                                                "description": "A specific pack format version supported by this overlay."
+                                            },
+                                            "description": "List of specific pack format versions supported by this overlay."
+                                        }
+                                    }
+                                },
+                                "description": "List of overlays. The order is important, as the first in the list is applied first."
+                            }
+                        }
+                    },
+                    "language": {
+                        "type": "object",
+                        "description": "Only present in resource packs — Contains additional languages to add to the language menu",
+                        "additionalProperties": {
+                            "type": "object",
+                            "description": " Language code for a language, corresponding to a `.json` file with the same name in the directory `assets/<namespace>/lang`",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "The full name of the language"
+                                },
+                                "region": {
+                                    "type": "string",
+                                    "description": "The country or region name"
+                                },
+                                "bidirectional": {
+                                    "type": "boolean",
+                                    "description": "If true, the language reads right to left"
+                                }
+                            },
+                        }
                     }
-                }
+                },
+                "required": [
+                    "pack"
+                ]
             }
         },
         { // Minecraft/Item/
@@ -1383,7 +1518,8 @@
                                             "type": "string",
                                             "description": "Value describing time zone. If not present, defaults to timezone set on client.",
                                             "examples": [
-                                                "Europe/Stockholm", "GMT+0:45"
+                                                "Europe/Stockholm",
+                                                "GMT+0:45"
                                             ]
                                         },
                                         "pattern": {

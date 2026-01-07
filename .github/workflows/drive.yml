@@ -17,7 +17,7 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           filename: 'Santy112Pack.zip'
-          exclusions: '*.git* .github/* README.md .vscode/*'
+          exclusions: '*.git* .github/* README.md .vscode/ .vscode/*'
 
       - name: Update Release
         uses: pyTooling/Actions/releaser@r0
