@@ -24,11 +24,14 @@ jobs:
       - name: Run Generator Script
         run: node generate_guide.js
 
+      - name: Cleanup Build Artifacts
+        run: rm -rf node_modules package-lock.json package.json generate_guide.js .gitignore
+
       - name: Create Archive
         uses: thedoctor0/zip-release@master
         with:
           filename: 'Santy112Pack.zip'
-          exclusions: '*.git* .github/* README.md .vscode/ .vscode/* node_modules/* generate_guide.js package-lock.json package.json'
+          exclusions: '*.git* .github/* README.md .vscode/ .vscode/*'
 
       - name: Update Release
         uses: pyTooling/Actions/releaser@r0
