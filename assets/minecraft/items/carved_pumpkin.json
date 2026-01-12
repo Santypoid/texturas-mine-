@@ -14,8 +14,28 @@
             {
                 "when": "Gorro",
                 "model": {
+                    "type": "minecraft:select",
+                    "property": "minecraft:display_context",
+                    "cases": [
+                        {
+                            "when": "head",
+                            "model": {
+                                "type": "minecraft:model",
+                                "model": "minecraft:item/gorro"
+                            }
+                        }
+                    ],
+                    "fallback": {
+                        "type": "minecraft:model",
+                        "model": "minecraft:item/gorro_item"
+                    }
+                }
+            },
+            {
+                "when": "Builder Helmet",
+                "model": {
                     "type": "minecraft:model",
-                    "model": "minecraft:item/gorro"
+                    "model": "minecraft:item/builder_helmet"
                 }
             }
         ],
