@@ -34,8 +34,21 @@
             {
                 "when": "Builder Helmet",
                 "model": {
-                    "type": "minecraft:model",
-                    "model": "minecraft:item/builder_helmet"
+                    "type": "minecraft:select",
+                    "property": "minecraft:display_context",
+                    "cases": [
+                        {
+                            "when": "head",
+                            "model": {
+                                "type": "minecraft:model",
+                                "model": "minecraft:item/builder_helmet"
+                            }
+                        }
+                    ],
+                    "fallback": {
+                        "type": "minecraft:model",
+                        "model": "minecraft:item/builder_helmet_item"
+                    }
                 }
             }
         ],
