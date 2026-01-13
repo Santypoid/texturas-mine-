@@ -36,7 +36,7 @@ jobs:
       - name: Update Release
         uses: pyTooling/Actions/releaser@r0
         with:
-          tag: latest # Uma tag fixa chamada "latest"
-          rm_targs: Santy112Pack.zip # Remove o zip antigo
+          tag: latest
+          rm_targs: Santy112Pack.zip
           files: Santy112Pack.zip
           token: ${{ secrets.GITHUB_TOKEN }}
