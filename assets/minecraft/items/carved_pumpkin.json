@@ -7,8 +7,21 @@
             {
                 "when": "Straw Hat",
                 "model": {
-                    "type": "minecraft:model",
-                    "model": "minecraft:item/straw_hat"
+                    "type": "minecraft:select",
+                    "property": "minecraft:display_context",
+                    "cases": [
+                        {
+                            "when": "head",
+                            "model": {
+                                "type": "minecraft:model",
+                                "model": "minecraft:item/straw_hat"
+                            }
+                        }
+                    ],
+                    "fallback": {
+                        "type": "minecraft:model",
+                        "model": "minecraft:item/straw_hat_item"
+                    }
                 }
             },
             {
